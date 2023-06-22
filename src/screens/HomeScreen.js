@@ -21,7 +21,7 @@ const HomeScreen = () => {
     <View style={[styles.container, { paddingTop: top }]}>
       <View style={styles.topContainer}>
         <Image
-          source={require("C:/rn-photo/ch7_assets/ch7_assets/icon.png")}
+          source={require("../../ch7_assets/icon.png")}
           style={styles.icon}
         />
         <Text style={styles.title}>PlacePhotos</Text>
@@ -30,7 +30,7 @@ const HomeScreen = () => {
       <View style={styles.buttonContainer}>
         <Pressable onPress={() => navigation.navigate(ContentRoutes.LIST)}>
           <Image
-            source={require("C:/rn-photo/ch8_assets/home-clock.png")}
+            source={require("../../ch8_assets/home-clock.png")}
             style={[styles.image, { height }]}
           />
           <Text style={styles.buttonTitle}>타임라인</Text>
@@ -40,7 +40,7 @@ const HomeScreen = () => {
       <View style={styles.buttonContainer}>
         <Pressable onPress={() => navigation.navigate(ContentRoutes.MAP)}>
           <Image
-            source={require("C:/rn-photo/ch8_assets/home-map.png")}
+            source={require("../../ch8_assets/home-map.png")}
             style={[styles.image, { height }]}
           />
           <Text style={styles.buttonTitle}>지도</Text>

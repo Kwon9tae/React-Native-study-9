@@ -76,7 +76,7 @@ const SignUpScreen = () => {
         <View style={[styles.container, { paddingTop: top }]}>
           <View style={StyleSheet.absoluteFill}>
             <Image
-              source={require("C:/rn-photo/assets/cover.png")}
+              source={require("C:/rn-photo/ch7_assets/cover.png")}
               style={{ width: "100%" }}
               resizeMode="cover"
             />

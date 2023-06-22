@@ -9,10 +9,10 @@ import MainStack from "./MainStack";
 import { onAuthStateChanged } from "../api/auth";
 
 const ImageAssets = [
-  require("C:/rn-photo/ch7_assets/ch7_assets/cover.png"),
-  require("C:/rn-photo/ch8_assets/home-clock.png"),
-  require("C:/rn-photo/ch8_assets/home-map.png"),
-  require("C:/rn-photo/ch7_assets/ch7_assets/icon.png"),
+  require("../../ch7_assets/cover.png"),
+  require("../../ch8_assets/home-clock.png"),
+  require("../../ch8_assets/home-map.png"),
+  require("../../ch7_assets/icon.png"),
 ];
 
 const Navigaiton = () => {
@@ -28,7 +28,7 @@ const Navigaiton = () => {
           ImageAssets.map((image) => Asset.fromModule(image).downloadAsync())
         );
         await Asset.fromModule(
-          require("C:/rn-photo/assets/cover.png")
+          require("../../assets/cover.png")
         ).downloadAsync();
         const app = initFirebase();
         const unsubscrible = onAuthStateChanged((user) => {
