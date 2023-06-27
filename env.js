@@ -6,3 +6,5 @@ export const firebaseConfig = {
   messagingSenderId: "917835958681",
   appId: "1:917835958681:web:13f4ad792c800a935ceb08",
 };
+
+export const MAP_KEY = "AIzaSyD9w4lueGZYepV7iMy5U9qPuajtTw-pMWE";
