@@ -1,12 +1,12 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   Alert,
   Keyboard,
-  Button,
   Pressable,
   StyleSheet,
   TextInput,
   View,
+  Platform,
 } from "react-native";
 import { GRAY, WHITE } from "../Color";
 import FastImage from "../components/FastImage";
@@ -17,15 +17,29 @@ import { useLayoutEffect, useEffect, useState, useCallback } from "react";
 import HeaderRight from "../components/HeaderRight";
 import { updateUserInfo } from "../api/auth";
 import { MainRoutes } from "../navigations/routes";
+import { getLocalUri } from "../components/ImagePicker";
+import { uploadPhoto } from "../api/storage";
 
 const UpdateProfileScreen = () => {
   const navigation = useNavigation();
+  const { params } = useRoute();
 
   const [user, setUser] = useUserState();
 
+  const [photo, setPhoto] = useState({ uri: user.photoURL });
   const [displayName, setDisplayName] = useState(user.displayName);
   const [disabled, setDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (params) {
+      const { selectedPhotos } = params;
+      if (selectedPhotos?.length) {
+        console.log("selectedPhotos: ", selectedPhotos[0]);
+        setPhoto(selectedPhotos[0]);
+      }
+    }
+  }, [params]);
 
   useEffect(() => {
     setDisabled(!displayName || isLoading);
@@ -36,6 +50,17 @@ const UpdateProfileScreen = () => {
     if (!disabled) {
       setIsLoading(true);
       try {
+        const localUri = Platform.select({
+          ios: await getLocalUri(photo.id),
+          android: photo.uri,
+        });
+        const photoURL = await uploadPhoto({
+          uri: localUri,
+          uid: user.uid,
+        });
+        console.log(photoURL);
+        false;
+
         const userInfo = { displayName };
 
         await updateUserInfo(userInfo);
@@ -47,7 +72,15 @@ const UpdateProfileScreen = () => {
         setIsLoading(false);
       }
     }
-  }, [disabled, displayName, navigation, setUser]);
+  }, [
+    disabled,
+    displayName,
+    navigation,
+    setUser,
+    photo.id,
+    photo.uri,
+    photo.uid,
+  ]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -58,14 +91,13 @@ const UpdateProfileScreen = () => {
   return (
     <SafeInputView>
       <View style={styles.container}>
-        <Button title="back" onPress={() => navigation.goBack()} />
         <View
           style={[
             styles.photo,
             user.photoURL || { backgroundColor: GRAY.DEFAULT },
           ]}
         >
-          <FastImage source={{ uri: user.photoURL }} style={styles.photo} />
+          <FastImage source={{ uri: photo.uri }} style={styles.photo} />
           <Pressable
             style={styles.imageButton}
             onPress={() => navigation.navigate(MainRoutes.IMAGE_PICKER)}
